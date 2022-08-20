@@ -1,0 +1,17 @@
+# Configuration file for Dirt-Restrict
+
+[general]
+# Wether debug-messages should be printed to the console
+debug = true
+# Wether debug-messages should be colored in the console
+coloredDebug = true
+# The amount of list entries that should be shown in the list command.
+# Keep in mind that there are atleast 4 more lines, for the top and bottom bar, than this value.
+listEntries = 10
+
+[sound]
+# Wether to play a sound when a player tries to use a banned item.
+playErrorSound = true
+# The sound that should be played.
+# For this to do something the value above needs to be true.
+errorSound = "minecraft:entity.creeper.death"

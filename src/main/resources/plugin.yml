@@ -1,0 +1,13 @@
+name: DirtRestrict
+version: '${version}'
+main: net.dirtcraft.plugins.dirtrestrict.DirtRestrict
+api-version: 1.16
+prefix: DirtRestrict
+authors: [ DeJustinHD ]
+description: Adds the functionality to ban certain items in certain world.
+commands:
+    dirtrestrict:
+        description: Main command for DirtRestrict.
+        aliases: [ dr, restrict ]
+    banneditems:
+        description: Alias command for /dirtrestrict list
