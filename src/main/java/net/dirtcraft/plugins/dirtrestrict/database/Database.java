@@ -21,7 +21,7 @@ public class Database {
 		try {
 			ds = new HikariDataSource();
 			ds.setDriverClassName("org.h2.Driver");
-			ds.setJdbcUrl("jdbc:h2:" + DirtRestrict.getPlugin().getDataFolder().getAbsolutePath() + "/data/dirtlimits");
+			ds.setJdbcUrl("jdbc:h2:" + DirtRestrict.getPlugin().getDataFolder().getAbsolutePath() + "/data/dirtrestrict");
 			ds.setConnectionTimeout(1000);
 			ds.setLoginTimeout(5);
 			ds.setAutoCommit(true);
