@@ -11,3 +11,42 @@ commands:
         aliases: [ dr, restrict ]
     banneditems:
         description: Alias command for /dirtrestrict list
+
+permissions:
+    dirtrestrict.base:
+        description: Base permission for DirtRestrict.
+    dirtrestrict.bypass:
+        description: Permission to toggle bypass of restrictions.
+    dirtrestrict.list:
+        description: Permission to list banned items.
+    dirtrestrict.add:
+        description: Permission to add banned items.
+    dirtrestrict.remove:
+        description: Permission to remove banned items.
+    dirtrestrict.edit:
+        description: Permission to edit banned items.
+    dirtrestrict.reload:
+        description: Permission to reload the config.
+    dirtrestrict.common:
+        description: Permissions for players
+        children:
+            dirtrestrict.base: true
+            dirtrestrict.list: true
+    dirtrestrict.moderator:
+        description: Permissions for moderators
+        children:
+            dirtrestrict.base: true
+            dirtrestrict.list: true
+            dirtrestrict.bypass: true
+            dirtrestrict.edit: true
+    dirtrestrict.admin:
+        description: Permissions for admins
+        children:
+            dirtrestrict.base: true
+            dirtrestrict.bypass: true
+            dirtrestrict.list: true
+            dirtrestrict.add: true
+            dirtrestrict.remove: true
+            dirtrestrict.edit: true
+            dirtrestrict.reload: true
+
