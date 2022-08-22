@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS ITEM
     item_placeBanned          BOOLEAN     NOT NULL,
     item_pickupBanned         BOOLEAN     NOT NULL,
     item_inventoryClickBanned BOOLEAN     NOT NULL,
+    item_holdBanned           BOOLEAN     NOT NULL,
+    item_useBanned            BOOLEAN     NOT NULL,
     primary key (item_block)
 );
 
@@ -23,5 +25,7 @@ CREATE TABLE IF NOT EXISTS MODS
     mods_placeBanned          BOOLEAN     NOT NULL,
     mods_pickupBanned         BOOLEAN     NOT NULL,
     mods_inventoryClickBanned BOOLEAN     NOT NULL,
+    mods_holdBanned           BOOLEAN     NOT NULL,
+    mods_useBanned            BOOLEAN     NOT NULL,
     primary key (mods_namespace)
 );

@@ -27,6 +27,8 @@ permissions:
         description: Permission to edit banned items.
     dirtrestrict.reload:
         description: Permission to reload the config.
+    dirtrestrict.search:
+        description: Permission to search for banned items.
     dirtrestrict.common:
         description: Permissions for players
         children:
@@ -39,6 +41,7 @@ permissions:
             dirtrestrict.list: true
             dirtrestrict.bypass: true
             dirtrestrict.edit: true
+            dirtrestrict.search: true
     dirtrestrict.admin:
         description: Permissions for admins
         children:
@@ -48,5 +51,6 @@ permissions:
             dirtrestrict.add: true
             dirtrestrict.remove: true
             dirtrestrict.edit: true
+            dirtrestrict.search: true
             dirtrestrict.reload: true
 

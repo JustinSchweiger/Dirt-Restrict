@@ -22,7 +22,7 @@ public class DatabaseOperation {
 	public static void addRestrictionForItem(final NamespacedKey itemToRestrict, final String displayName, final AddRestrictionCallback addRestrictionCallback) {
 		Bukkit.getScheduler().runTaskAsynchronously(DirtRestrict.getPlugin(), () -> {
 			try (Connection connection = Database.getConnection();
-			     PreparedStatement statement = connection.prepareStatement("INSERT INTO ITEM VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+			     PreparedStatement statement = connection.prepareStatement("INSERT INTO ITEM VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 				statement.setString(1, itemToRestrict.toString());
 				statement.setString(2, displayName);
 				statement.setString(3, "");
@@ -32,6 +32,8 @@ public class DatabaseOperation {
 				statement.setBoolean(7, true);
 				statement.setBoolean(8, true);
 				statement.setBoolean(9, true);
+				statement.setBoolean(10, true);
+				statement.setBoolean(11, true);
 				statement.execute();
 
 				Bukkit.getScheduler().runTask(DirtRestrict.getPlugin(), addRestrictionCallback::onSuccess);
@@ -64,7 +66,9 @@ public class DatabaseOperation {
 									items.getBoolean("item_breakBanned"),
 									items.getBoolean("item_placeBanned"),
 									items.getBoolean("item_pickupBanned"),
-									items.getBoolean("item_inventoryClickBanned")
+									items.getBoolean("item_inventoryClickBanned"),
+									items.getBoolean("item_holdBanned"),
+									items.getBoolean("item_useBanned")
 							)
 					);
 				}
@@ -84,7 +88,9 @@ public class DatabaseOperation {
 									mods.getBoolean("mods_breakBanned"),
 									mods.getBoolean("mods_placeBanned"),
 									mods.getBoolean("mods_pickupBanned"),
-									mods.getBoolean("mods_inventoryClickBanned")
+									mods.getBoolean("mods_inventoryClickBanned"),
+									mods.getBoolean("mods_holdBanned"),
+									mods.getBoolean("mods_useBanned")
 							)
 					);
 				}
@@ -191,6 +197,44 @@ public class DatabaseOperation {
 					mods.execute();
 				} else {
 					items.setBoolean(1, pickupBanned);
+					items.setString(2, value);
+					items.execute();
+				}
+				Bukkit.getScheduler().runTask(DirtRestrict.getPlugin(), editCallback::onSuccess);
+			} catch (SQLException ignored) {}
+		});
+	}
+
+	public static void updateHoldBanned(final String value, final boolean holdBanned, final boolean isMod, final EditCallback editCallback) {
+		Bukkit.getScheduler().runTaskAsynchronously(DirtRestrict.getPlugin(), () -> {
+			try (Connection connection = Database.getConnection();
+			     PreparedStatement items = connection.prepareStatement("UPDATE ITEM SET item_holdBanned = ? WHERE item_block = ?");
+			     PreparedStatement mods = connection.prepareStatement("UPDATE MODS SET mods_holdBanned = ? WHERE mods_namespace = ?")) {
+				if (isMod) {
+					mods.setBoolean(1, holdBanned);
+					mods.setString(2, value);
+					mods.execute();
+				} else {
+					items.setBoolean(1, holdBanned);
+					items.setString(2, value);
+					items.execute();
+				}
+				Bukkit.getScheduler().runTask(DirtRestrict.getPlugin(), editCallback::onSuccess);
+			} catch (SQLException ignored) {}
+		});
+	}
+
+	public static void updateUseBanned(final String value, final boolean useBanned, final boolean isMod, final EditCallback editCallback) {
+		Bukkit.getScheduler().runTaskAsynchronously(DirtRestrict.getPlugin(), () -> {
+			try (Connection connection = Database.getConnection();
+			     PreparedStatement items = connection.prepareStatement("UPDATE ITEM SET item_useBanned = ? WHERE item_block = ?");
+			     PreparedStatement mods = connection.prepareStatement("UPDATE MODS SET mods_useBanned = ? WHERE mods_namespace = ?")) {
+				if (isMod) {
+					mods.setBoolean(1, useBanned);
+					mods.setString(2, value);
+					mods.execute();
+				} else {
+					items.setBoolean(1, useBanned);
 					items.setString(2, value);
 					items.execute();
 				}
@@ -336,7 +380,7 @@ public class DatabaseOperation {
 	public static void addRestrictionForMod(final String namespace, final String displayName, final AddRestrictionCallback addRestrictionCallback) {
 		Bukkit.getScheduler().runTaskAsynchronously(DirtRestrict.getPlugin(), () -> {
 			try (Connection connection = Database.getConnection();
-			     PreparedStatement statement = connection.prepareStatement("INSERT INTO MODS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+			     PreparedStatement statement = connection.prepareStatement("INSERT INTO MODS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 				statement.setString(1, namespace);
 				statement.setString(2, displayName);
 				statement.setString(3, "");
@@ -346,6 +390,8 @@ public class DatabaseOperation {
 				statement.setBoolean(7, true);
 				statement.setBoolean(8, true);
 				statement.setBoolean(9, true);
+				statement.setBoolean(10, true);
+				statement.setBoolean(11, true);
 				statement.execute();
 
 				Bukkit.getScheduler().runTask(DirtRestrict.getPlugin(), addRestrictionCallback::onSuccess);

@@ -87,14 +87,14 @@ public class AddCommand {
 	}
 
 	private static void addRestrictionForItem(CommandSender sender, NamespacedKey itemToRestrict, String displayName) {
-		RestrictedItemManager.addRestrictionForItem(new RestrictedItem(itemToRestrict, displayName, "", "", new ArrayList<>(), true, true, true, true));
+		RestrictedItemManager.addRestrictionForItem(new RestrictedItem(itemToRestrict, displayName, "", "", new ArrayList<>(), true, true, true, true, true, true));
 		DatabaseOperation.addRestrictionForItem(itemToRestrict, displayName, () -> {
 			sender.sendMessage(Strings.ITEM_RESTRICTION_ADDED.replace("{material}", itemToRestrict.toString()));
 		});
 	}
 
 	private static void addRestrictionForMod(CommandSender sender, String namespace, String displayName) {
-		RestrictedItemManager.addRestrictionForMod(new RestrictedMod(namespace, displayName, "", "", new ArrayList<>(), true, true, true, true));
+		RestrictedItemManager.addRestrictionForMod(new RestrictedMod(namespace, displayName, "", "", new ArrayList<>(), true, true, true, true, true, true));
 		DatabaseOperation.addRestrictionForMod(namespace, displayName, () -> {
 			sender.sendMessage(Strings.MOD_RESTRICTION_ADDED.replace("{namespace}", namespace));
 		});

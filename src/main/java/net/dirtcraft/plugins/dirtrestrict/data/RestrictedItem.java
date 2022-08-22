@@ -15,8 +15,10 @@ public class RestrictedItem {
 	private boolean placeBanned;
 	private boolean pickupBanned;
 	private boolean inventoryClickBanned;
+	private boolean holdBanned;
+	private boolean useBanned;
 
-	public RestrictedItem(NamespacedKey item, String displayName, String reason, String alternative, List<String> whitelistedWorlds, boolean breakBanned, boolean placeBanned, boolean pickupBanned, boolean inventoryClickBanned) {
+	public RestrictedItem(NamespacedKey item, String displayName, String reason, String alternative, List<String> whitelistedWorlds, boolean breakBanned, boolean placeBanned, boolean pickupBanned, boolean inventoryClickBanned, boolean holdBanned, boolean useBanned) {
 		this.item = item;
 		this.displayName = displayName;
 		this.reason = reason;
@@ -26,6 +28,8 @@ public class RestrictedItem {
 		this.placeBanned = placeBanned;
 		this.pickupBanned = pickupBanned;
 		this.inventoryClickBanned = inventoryClickBanned;
+		this.holdBanned = holdBanned;
+		this.useBanned = useBanned;
 	}
 
 
@@ -99,5 +103,21 @@ public class RestrictedItem {
 
 	public NamespacedKey getItem() {
 		return item;
+	}
+
+	public boolean isHoldBanned() {
+		return holdBanned;
+	}
+
+	public void setHoldBanned(boolean holdBanned) {
+		this.holdBanned = holdBanned;
+	}
+
+	public boolean isUseBanned() {
+		return useBanned;
+	}
+
+	public void setUseBanned(boolean useBanned) {
+		this.useBanned = useBanned;
 	}
 }

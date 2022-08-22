@@ -42,7 +42,7 @@ public class Strings {
 	public static final String DISPLAY_NAME_SET = PREFIX + ChatColor.GRAY + "Display name set to " + ChatColor.GOLD + "{displayName}" + ChatColor.GRAY + ".";
 	public static final String ALTERNATIVE_SET = PREFIX + ChatColor.GRAY + "Updated alternative.";
 	public static final String REASON_SET = PREFIX + ChatColor.GRAY + "Updated reason.";
-	public static final String UPDATED_METHOD = PREFIX + ChatColor.GRAY + "Updated {action} to " + ChatColor.GOLD + "{value}" + ChatColor.GRAY + ".";
+	public static final String UPDATED_METHOD = PREFIX + ChatColor.GRAY + "Updated " + ChatColor.YELLOW + "{action}" + ChatColor.GRAY + " to " + ChatColor.GOLD + "{value}" + ChatColor.GRAY + ".";
 	public static final String ADDED_WHITELISTED_WORLD = PREFIX + ChatColor.GRAY + "Added world " + ChatColor.GOLD + "{world}" + ChatColor.GRAY + " to whitelisted worlds.";
 	public static final String REMOVED_WHITELISTED_WORLD = PREFIX + ChatColor.GRAY + "Removed world " + ChatColor.GOLD + "{world}" + ChatColor.GRAY + " from whitelisted worlds.";
 	public static final String WORLD_ALREADY_WHITELISTED = PREFIX + ChatColor.RED + "World " + ChatColor.GOLD + "{world}" + ChatColor.RED + " is already whitelisted!";
@@ -56,4 +56,10 @@ public class Strings {
 	public static final String BYPASS_DISABLED = PREFIX + ChatColor.GRAY + "Bypass is now " + ChatColor.RED + "OFF" + ChatColor.GRAY + ".";
 	public static final String BYPASS_ENABLED = PREFIX + ChatColor.GRAY + "Bypass is now " + ChatColor.GREEN + "ON" + ChatColor.GRAY + ".";
 	public static final String BYPASSING = ChatColor.GREEN + "You are bypassing the restriction on this item!";
+
+	// ---------------------------------------------------------- SEARCH COMMAND ----------------------------------------------------------
+	public static final String SEARCH_STARTED = PREFIX + ChatColor.GRAY + "Searching for banned blocks ... This may take a while!";
+	public static final String SEARCH_NO_RESULTS = PREFIX + ChatColor.RED + "No results found!";
+	public static final String NO_SEARCH_IN_PROGRESS = PREFIX + ChatColor.RED + "Please run a search first!";
+	public static final String SEARCH_COMPLETE = PREFIX + ChatColor.GRAY + "Search complete! Found " + ChatColor.GOLD + "{count}" + ChatColor.GRAY + " results! Use " + ChatColor.YELLOW + "/restrict search [page]" + ChatColor.GRAY + " to see them!";
 }

@@ -210,6 +210,42 @@ public class RestrictedItemManager {
 		}
 	}
 
+	public static void updateHoldBanned(String value, boolean holdBanned, boolean isMod) {
+		if (isMod) {
+			for (RestrictedMod restrictedMod : restrictedMods) {
+				if (restrictedMod.getNamespace().equals(value)) {
+					restrictedMod.setHoldBanned(holdBanned);
+					return;
+				}
+			}
+		} else {
+			for (RestrictedItem restrictedItem : restrictedItems) {
+				if (restrictedItem.getItem().toString().equals(value)) {
+					restrictedItem.setHoldBanned(holdBanned);
+					return;
+				}
+			}
+		}
+	}
+
+	public static void updateUseBanned(String value, boolean useBanned, boolean isMod) {
+		if (isMod) {
+			for (RestrictedMod restrictedMod : restrictedMods) {
+				if (restrictedMod.getNamespace().equals(value)) {
+					restrictedMod.setUseBanned(useBanned);
+					return;
+				}
+			}
+		} else {
+			for (RestrictedItem restrictedItem : restrictedItems) {
+				if (restrictedItem.getItem().toString().equals(value)) {
+					restrictedItem.setUseBanned(useBanned);
+					return;
+				}
+			}
+		}
+	}
+
 	public static void addAllowedWorld(String item, String world, boolean isMod) {
 		if (isMod) {
 			for (RestrictedMod restrictedMod : restrictedMods) {
@@ -423,6 +459,42 @@ public class RestrictedItemManager {
 		for (RestrictedItem restrictedItem : restrictedItems) {
 			if (restrictedItem.getItem().equals(item)) {
 				return restrictedItem.isPickupBanned();
+			}
+		}
+		return false;
+	}
+
+	public static boolean isHoldBanned(NamespacedKey item) {
+		for (RestrictedItem restrictedBlock : restrictedItems) {
+			if (restrictedBlock.getItem().equals(item)) {
+				return restrictedBlock.isHoldBanned();
+			}
+		}
+		return false;
+	}
+
+	public static boolean isHoldBanned(String namespace) {
+		for (RestrictedMod restrictedMod : restrictedMods) {
+			if (restrictedMod.getNamespace().equals(namespace)) {
+				return restrictedMod.isHoldBanned();
+			}
+		}
+		return false;
+	}
+
+	public static boolean isUseBanned(NamespacedKey item) {
+		for (RestrictedItem restrictedBlock : restrictedItems) {
+			if (restrictedBlock.getItem().equals(item)) {
+				return restrictedBlock.isUseBanned();
+			}
+		}
+		return false;
+	}
+
+	public static boolean isUseBanned(String namespace) {
+		for (RestrictedMod restrictedMod : restrictedMods) {
+			if (restrictedMod.getNamespace().equals(namespace)) {
+				return restrictedMod.isUseBanned();
 			}
 		}
 		return false;

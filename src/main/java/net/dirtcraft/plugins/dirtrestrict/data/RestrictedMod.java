@@ -14,8 +14,10 @@ public class RestrictedMod {
 	private boolean placeBanned;
 	private boolean pickupBanned;
 	private boolean inventoryClickBanned;
+	private boolean holdBanned;
+	private boolean useBanned;
 
-	public RestrictedMod(String namespace, String displayName, String reason, String alternative, List<String> whitelistedWorlds, boolean breakBanned, boolean placeBanned, boolean pickupBanned, boolean inventoryClickBanned) {
+	public RestrictedMod(String namespace, String displayName, String reason, String alternative, List<String> whitelistedWorlds, boolean breakBanned, boolean placeBanned, boolean pickupBanned, boolean inventoryClickBanned, boolean holdBanned, boolean useBanned) {
 		this.namespace = namespace;
 		this.displayName = displayName;
 		this.reason = reason;
@@ -25,6 +27,8 @@ public class RestrictedMod {
 		this.placeBanned = placeBanned;
 		this.pickupBanned = pickupBanned;
 		this.inventoryClickBanned = inventoryClickBanned;
+		this.holdBanned = holdBanned;
+		this.useBanned = useBanned;
 	}
 
 	public String getNamespace() {
@@ -97,5 +101,21 @@ public class RestrictedMod {
 
 	public void setInventoryClickBanned(boolean inventoryClickBanned) {
 		this.inventoryClickBanned = inventoryClickBanned;
+	}
+
+	public boolean isHoldBanned() {
+		return holdBanned;
+	}
+
+	public void setHoldBanned(boolean holdBanned) {
+		this.holdBanned = holdBanned;
+	}
+
+	public boolean isUseBanned() {
+		return useBanned;
+	}
+
+	public void setUseBanned(boolean useBanned) {
+		this.useBanned = useBanned;
 	}
 }

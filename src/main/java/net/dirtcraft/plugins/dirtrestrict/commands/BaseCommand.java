@@ -71,6 +71,8 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 				return BypassCommand.run(sender);
 			case "reload":
 				return ReloadCommand.run(sender, args);
+			case "search":
+				return SearchCommand.run(sender, args);
 			default:
 				sender.sendMessage(Strings.UNKNOWN_COMMAND);
 				return false;
@@ -130,6 +132,13 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 			listings.add(bypass);
 		}
 
+		if (sender.hasPermission(Permissions.SEARCH)) {
+			TextComponent search = new TextComponent(ChatColor.GOLD + "  /dirtrestrict " + ChatColor.YELLOW + "search [run/page]");
+			search.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GRAY + "Searches for restricted items.")));
+			search.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/dirtrestrict search [run/page]"));
+			listings.add(search);
+		}
+
 		if (sender.hasPermission(Permissions.RELOAD)) {
 			TextComponent reload = new TextComponent(ChatColor.GOLD + "  /dirtrestrict " + ChatColor.YELLOW + "reload");
 			reload.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GRAY + "Reloads the config.")));
@@ -158,6 +167,10 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 				arguments.add("bypass");
 			}
 
+			if (sender.hasPermission(Permissions.SEARCH)) {
+				arguments.add("search");
+			}
+
 			if (sender.hasPermission(Permissions.REMOVE)) {
 				arguments.add("remove");
 				arguments.add("removeMod");
@@ -171,6 +184,9 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 			if (sender.hasPermission(Permissions.RELOAD)) {
 				arguments.add("reload");
 			}
+		} else if (args.length == 2 && args[0].equalsIgnoreCase("search") && sender.hasPermission(Permissions.SEARCH)) {
+			arguments.add("run");
+			arguments.add("[page]");
 		} else if (args.length >= 2 && args[0].equalsIgnoreCase("add") && sender.hasPermission(Permissions.ADD)) {
 			arguments.add("<display-name>");
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("addMod") && sender.hasPermission(Permissions.ADD)) {
@@ -189,7 +205,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 			arguments.addAll(RestrictedItemManager.getNotWhitelistedWorlds(args[1], false));
 		} else if (args.length > 3 && args[0].equalsIgnoreCase("edit") && args[2].equalsIgnoreCase("removeAllowedWorld") && sender.hasPermission(Permissions.EDIT)) {
 			arguments.addAll(RestrictedItemManager.getAllWhitelistedWorlds(args[1], false));
-		} else if (args.length > 3 && args[0].equalsIgnoreCase("edit") && (args[2].equalsIgnoreCase("setBreakBanned") || args[3].equalsIgnoreCase("setPlaceBanned") || args[3].equalsIgnoreCase("setPickupBanned") || args[3].equalsIgnoreCase("setClickBanned")) && sender.hasPermission(Permissions.EDIT)) {
+		} else if (args.length > 3 && args[0].equalsIgnoreCase("edit") && (args[2].equalsIgnoreCase("setBreakBanned") || args[3].equalsIgnoreCase("setPlaceBanned") || args[3].equalsIgnoreCase("setPickupBanned") || args[3].equalsIgnoreCase("setClickBanned") || args[3].equalsIgnoreCase("setHoldBanned") || args[3].equalsIgnoreCase("setUseBanned")) && sender.hasPermission(Permissions.EDIT)) {
 			arguments.add("true");
 			arguments.add("false");
 		} else if (args.length > 3 && args[0].equalsIgnoreCase("edit") && args[2].equalsIgnoreCase("setReason") && sender.hasPermission(Permissions.EDIT)) {
@@ -206,7 +222,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 			arguments.addAll(RestrictedItemManager.getNotWhitelistedWorlds(args[1], true));
 		} else if (args.length > 3 && args[0].equalsIgnoreCase("editMod") && args[2].equalsIgnoreCase("removeAllowedWorld") && sender.hasPermission(Permissions.EDIT)) {
 			arguments.addAll(RestrictedItemManager.getAllWhitelistedWorlds(args[1], true));
-		} else if (args.length > 3 && args[0].equalsIgnoreCase("editMod") && (args[2].equalsIgnoreCase("setBreakBanned") || args[3].equalsIgnoreCase("setPlaceBanned") || args[3].equalsIgnoreCase("setPickupBanned") || args[3].equalsIgnoreCase("setClickBanned")) && sender.hasPermission(Permissions.EDIT)) {
+		} else if (args.length > 3 && args[0].equalsIgnoreCase("editMod") && (args[2].equalsIgnoreCase("setBreakBanned") || args[3].equalsIgnoreCase("setPlaceBanned") || args[3].equalsIgnoreCase("setPickupBanned") || args[3].equalsIgnoreCase("setClickBanned") || args[3].equalsIgnoreCase("setHoldBanned") || args[3].equalsIgnoreCase("setUseBanned")) && sender.hasPermission(Permissions.EDIT)) {
 			arguments.add("true");
 			arguments.add("false");
 		} else if (args.length > 3 && args[0].equalsIgnoreCase("editMod") && args[2].equalsIgnoreCase("setReason") && sender.hasPermission(Permissions.EDIT)) {

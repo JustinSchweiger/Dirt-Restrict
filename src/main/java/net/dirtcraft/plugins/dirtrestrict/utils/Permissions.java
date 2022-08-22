@@ -8,4 +8,5 @@ public class Permissions {
 	public static final String REMOVE = "dirtrestrict.remove";
 	public static final String EDIT = "dirtrestrict.edit";
 	public static final String RELOAD = "dirtrestrict.reload";
+	public static final String SEARCH = "dirtrestrict.search";
 }

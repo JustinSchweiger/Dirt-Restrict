@@ -5,10 +5,7 @@ import net.dirtcraft.plugins.dirtrestrict.DirtRestrict;
 import net.dirtcraft.plugins.dirtrestrict.commands.BannedItemsCommand;
 import net.dirtcraft.plugins.dirtrestrict.commands.BaseCommand;
 import net.dirtcraft.plugins.dirtrestrict.config.Config;
-import net.dirtcraft.plugins.dirtrestrict.listeners.BlockBreakListener;
-import net.dirtcraft.plugins.dirtrestrict.listeners.BlockPlaceListener;
-import net.dirtcraft.plugins.dirtrestrict.listeners.InventoryClickListener;
-import net.dirtcraft.plugins.dirtrestrict.listeners.PickupListener;
+import net.dirtcraft.plugins.dirtrestrict.listeners.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -47,6 +44,8 @@ public class Utilities {
 		DirtRestrict.getPlugin().getServer().getPluginManager().registerEvents(new BlockPlaceListener(), DirtRestrict.getPlugin());
 		DirtRestrict.getPlugin().getServer().getPluginManager().registerEvents(new InventoryClickListener(), DirtRestrict.getPlugin());
 		DirtRestrict.getPlugin().getServer().getPluginManager().registerEvents(new PickupListener(), DirtRestrict.getPlugin());
+		DirtRestrict.getPlugin().getServer().getPluginManager().registerEvents(new ItemHoldListener(), DirtRestrict.getPlugin());
+		DirtRestrict.getPlugin().getServer().getPluginManager().registerEvents(new PlayerInteractListener(), DirtRestrict.getPlugin());
 	}
 
 	public static void registerCommands() {

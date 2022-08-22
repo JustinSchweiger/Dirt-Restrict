@@ -20,11 +20,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EditCommand {
-	private static final List<String> options = Arrays.asList("setDisplayName", "addAllowedWorld", "removeAllowedWorld", "setBreakBanned", "setPlaceBanned", "setPickupBanned", "setClickBanned", "setReason", "setAlternative");
+	private static final List<String> options = Arrays.asList("setDisplayName", "addAllowedWorld", "removeAllowedWorld", "setBreakBanned", "setPlaceBanned", "setPickupBanned", "setClickBanned", "setHoldBanned", "setUseBanned", "setReason", "setAlternative");
 
 	public static List<String> getOptions() {
 		return options;
 	}
+
 	public static boolean run(CommandSender sender, String[] args) {
 		if (!sender.hasPermission(Permissions.EDIT)) {
 			sender.sendMessage(Strings.NO_PERMISSION);
@@ -53,7 +54,7 @@ public class EditCommand {
 			return true;
 		}
 
-		if (args[2].equalsIgnoreCase("setBreakBanned") || args[2].equalsIgnoreCase("setPlaceBanned") || args[2].equalsIgnoreCase("setPickupBanned") || args[2].equalsIgnoreCase("setClickBanned")) {
+		if (args[2].equalsIgnoreCase("setBreakBanned") || args[2].equalsIgnoreCase("setPlaceBanned") || args[2].equalsIgnoreCase("setPickupBanned") || args[2].equalsIgnoreCase("setClickBanned") || args[2].equalsIgnoreCase("setHoldBanned")) {
 			if (!args[3].equalsIgnoreCase("true") && !args[3].equalsIgnoreCase("false")) {
 				sender.sendMessage(Strings.INVALID_ARGUMENTS_USAGE + ChatColor.RED + "/dirtrestrict edit <id> <option> <value>");
 				return true;
@@ -83,6 +84,12 @@ public class EditCommand {
 				break;
 			case "setclickbanned":
 				setClickBanned(sender, value, args, false);
+				break;
+			case "setholdbanned":
+				setHoldBanned(sender, value, args, false);
+				break;
+			case "setusebanned":
+				setUseBanned(sender, value, args, false);
 				break;
 			case "setreason":
 				setReason(sender, value, args, false);
@@ -123,7 +130,7 @@ public class EditCommand {
 			return true;
 		}
 
-		if (args[2].equalsIgnoreCase("setBreakBanned") || args[2].equalsIgnoreCase("setPlaceBanned") || args[2].equalsIgnoreCase("setPickupBanned") || args[2].equalsIgnoreCase("setClickBanned")) {
+		if (args[2].equalsIgnoreCase("setBreakBanned") || args[2].equalsIgnoreCase("setPlaceBanned") || args[2].equalsIgnoreCase("setPickupBanned") || args[2].equalsIgnoreCase("setClickBanned") || args[2].equalsIgnoreCase("setHoldBanned")) {
 			if (!args[3].equalsIgnoreCase("true") && !args[3].equalsIgnoreCase("false")) {
 				sender.sendMessage(Strings.INVALID_ARGUMENTS_USAGE + ChatColor.RED + "/dirtrestrict editMod <id> <option> <value>");
 				return true;
@@ -141,6 +148,12 @@ public class EditCommand {
 				break;
 			case "removeallowedworld":
 				removeAllowedWorld(sender, namespace, args, true);
+				break;
+			case "setholdbanned":
+				setHoldBanned(sender, namespace, args, true);
+				break;
+			case "setusebanned":
+				setUseBanned(sender, namespace, args, true);
 				break;
 			case "setbreakbanned":
 				setBreakBanned(sender, namespace, args, true);
@@ -202,15 +215,31 @@ public class EditCommand {
 	private static void setClickBanned(CommandSender sender, String value, String[] args, boolean isMod) {
 		boolean clickBanned = args[3].equalsIgnoreCase("true");
 		DatabaseOperation.updateClickBanned(value, clickBanned, isMod, () -> {
-			sender.sendMessage(Strings.UPDATED_METHOD.replace("{action}", "click banned").replace("{value}", String.valueOf(clickBanned)));
+			sender.sendMessage(Strings.UPDATED_METHOD.replace("{action}", "\"click banned\"").replace("{value}", String.valueOf(clickBanned)));
 			RestrictedItemManager.updateClickBanned(value, clickBanned, isMod);
+		});
+	}
+
+	private static void setHoldBanned(CommandSender sender, String value, String[] args, boolean isMod) {
+		boolean holdBanned = args[3].equalsIgnoreCase("true");
+		DatabaseOperation.updateHoldBanned(value, holdBanned, isMod, () -> {
+			sender.sendMessage(Strings.UPDATED_METHOD.replace("{action}", "\"hold banned\"").replace("{value}", String.valueOf(holdBanned)));
+			RestrictedItemManager.updateHoldBanned(value, holdBanned, isMod);
+		});
+	}
+
+	private static void setUseBanned(CommandSender sender, String value, String[] args, boolean isMod) {
+		boolean useBanned = args[3].equalsIgnoreCase("true");
+		DatabaseOperation.updateUseBanned(value, useBanned, isMod, () -> {
+			sender.sendMessage(Strings.UPDATED_METHOD.replace("{action}", "\"use banned\"").replace("{value}", String.valueOf(useBanned)));
+			RestrictedItemManager.updateUseBanned(value, useBanned, isMod);
 		});
 	}
 
 	private static void setPickupBanned(CommandSender sender, String value, String[] args, boolean isMod) {
 		boolean pickupBanned = args[3].equalsIgnoreCase("true");
 		DatabaseOperation.updatePickupBanned(value, pickupBanned, isMod, () -> {
-			sender.sendMessage(Strings.UPDATED_METHOD.replace("{action}", "pickup banned").replace("{value}", String.valueOf(pickupBanned)));
+			sender.sendMessage(Strings.UPDATED_METHOD.replace("{action}", "\"pickup banned\"").replace("{value}", String.valueOf(pickupBanned)));
 			RestrictedItemManager.updatePickupBanned(value, pickupBanned, isMod);
 		});
 	}
@@ -218,7 +247,7 @@ public class EditCommand {
 	private static void setPlaceBanned(CommandSender sender, String value, String[] args, boolean isMod) {
 		boolean placeBanned = args[3].equalsIgnoreCase("true");
 		DatabaseOperation.updatePlaceBanned(value, placeBanned, isMod, () -> {
-			sender.sendMessage(Strings.UPDATED_METHOD.replace("{action}", "place banned").replace("{value}", String.valueOf(placeBanned)));
+			sender.sendMessage(Strings.UPDATED_METHOD.replace("{action}", "\"place banned\"").replace("{value}", String.valueOf(placeBanned)));
 			RestrictedItemManager.updatePlaceBanned(value, placeBanned, isMod);
 		});
 	}
@@ -226,7 +255,7 @@ public class EditCommand {
 	private static void setBreakBanned(CommandSender sender, String value, String[] args, boolean isMod) {
 		boolean breakBanned = args[3].equalsIgnoreCase("true");
 		DatabaseOperation.updateBreakBanned(value, breakBanned, isMod, () -> {
-			sender.sendMessage(Strings.UPDATED_METHOD.replace("{action}", "break banned").replace("{value}", String.valueOf(breakBanned)));
+			sender.sendMessage(Strings.UPDATED_METHOD.replace("{action}", "\"break banned\"").replace("{value}", String.valueOf(breakBanned)));
 			RestrictedItemManager.updateBreakBanned(value, breakBanned, isMod);
 		});
 	}
@@ -363,6 +392,26 @@ public class EditCommand {
 		}
 		BaseComponent[] clickBanned = clickBannedComponent.create();
 
+		ComponentBuilder useBannedComponent = new ComponentBuilder("")
+				.append(ChatColor.GOLD + "Use Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + restrictedItem.isUseBanned())
+				.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GRAY + "Click to toggle whether the item/block can be used!")));
+		if (restrictedItem.isUseBanned()) {
+			useBannedComponent.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dirtrestrict edit " + restrictedItem.getItem() + " setUseBanned false"));
+		} else {
+			useBannedComponent.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dirtrestrict edit " + restrictedItem.getItem() + " setUseBanned true"));
+		}
+		BaseComponent[] useBanned = useBannedComponent.create();
+
+		ComponentBuilder holdBannedComponent = new ComponentBuilder("")
+				.append(ChatColor.GOLD + "Hold Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + restrictedItem.isHoldBanned())
+				.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GRAY + "Click to toggle whether the item/block can be held!")));
+		if (restrictedItem.isHoldBanned()) {
+			holdBannedComponent.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dirtrestrict edit " + restrictedItem.getItem() + " setHoldBanned false"));
+		} else {
+			holdBannedComponent.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dirtrestrict edit " + restrictedItem.getItem() + " setHoldBanned true"));
+		}
+		BaseComponent[] holdBanned = holdBannedComponent.create();
+
 		BaseComponent[] reasonComponent = new ComponentBuilder("")
 				.append(ChatColor.GOLD + "Reason" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + reason)
 				.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Click to change the reason the item/block is banned!")))
@@ -383,6 +432,8 @@ public class EditCommand {
 		sender.spigot().sendMessage(placeBanned);
 		sender.spigot().sendMessage(pickupBanned);
 		sender.spigot().sendMessage(clickBanned);
+		sender.spigot().sendMessage(holdBanned);
+		sender.spigot().sendMessage(useBanned);
 		sender.sendMessage("");
 		sender.spigot().sendMessage(reasonComponent);
 		sender.spigot().sendMessage(alternativeComponent);
@@ -479,6 +530,26 @@ public class EditCommand {
 		}
 		BaseComponent[] clickBanned = clickBannedComponent.create();
 
+		ComponentBuilder useBannedComponent = new ComponentBuilder("")
+				.append(ChatColor.GOLD + "Use Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + restrictedMod.isUseBanned())
+				.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GRAY + "Click to toggle whether the items/blocks can be used!")));
+		if (restrictedMod.isUseBanned()) {
+			useBannedComponent.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dirtrestrict editMod " + restrictedMod.getNamespace() + " setUseBanned false"));
+		} else {
+			useBannedComponent.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dirtrestrict editMod " + restrictedMod.getNamespace() + " setUseBanned true"));
+		}
+		BaseComponent[] useBanned = useBannedComponent.create();
+
+		ComponentBuilder holdBannedComponent = new ComponentBuilder("")
+				.append(ChatColor.GOLD + "Hold Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + restrictedMod.isHoldBanned())
+				.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GRAY + "Click to toggle whether the items/blocks can be held!")));
+		if (restrictedMod.isHoldBanned()) {
+			holdBannedComponent.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dirtrestrict editMod " + restrictedMod.getNamespace() + " setHoldBanned false"));
+		} else {
+			holdBannedComponent.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dirtrestrict editMod " + restrictedMod.getNamespace() + " setHoldBanned true"));
+		}
+		BaseComponent[] holdBanned = holdBannedComponent.create();
+
 		BaseComponent[] reasonComponent = new ComponentBuilder("")
 				.append(ChatColor.GOLD + "Reason" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + reason)
 				.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Click to change the reason the mod is banned!")))
@@ -499,6 +570,8 @@ public class EditCommand {
 		sender.spigot().sendMessage(placeBanned);
 		sender.spigot().sendMessage(pickupBanned);
 		sender.spigot().sendMessage(clickBanned);
+		sender.spigot().sendMessage(holdBanned);
+		sender.spigot().sendMessage(useBanned);
 		sender.sendMessage("");
 		sender.spigot().sendMessage(reasonComponent);
 		sender.spigot().sendMessage(alternativeComponent);

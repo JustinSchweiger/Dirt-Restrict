@@ -6,6 +6,7 @@ import net.dirtcraft.plugins.dirtrestrict.data.RestrictedMod;
 import net.dirtcraft.plugins.dirtrestrict.utils.Permissions;
 import net.dirtcraft.plugins.dirtrestrict.utils.Strings;
 import net.dirtcraft.plugins.dirtrestrict.utils.Utilities;
+import net.dirtcraft.plugins.dirtrestrict.utils.gradient.GradientHandler;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.ChatColor;
@@ -101,19 +102,21 @@ public class BannedItemsCommand implements CommandExecutor {
 					restrictedItem = new ComponentBuilder("")
 							.append(ChatColor.GOLD + item.getDisplayName() + ChatColor.DARK_AQUA + " - " + ChatColor.GRAY + reason)
 							.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-									ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "General Info" + ChatColor.DARK_GRAY + ":" + "\n" +
+									ChatColor.DARK_AQUA + "\u2219 " + ChatColor.UNDERLINE + "General Info" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.GOLD + "ID" + ChatColor.DARK_GRAY + ": " + ChatColor.RED + item.getItem().toString() + "\n" +
 											ChatColor.GOLD + "Name" + ChatColor.DARK_GRAY + ": " + ChatColor.GREEN + item.getDisplayName() + "\n" +
 											ChatColor.GOLD + "Allowed Worlds" + ChatColor.DARK_GRAY + ": " + whitelistedWorlds + "\n" +
 											ChatColor.GOLD + "Bypass Permission" + ChatColor.DARK_GRAY + ": " + ChatColor.BLUE + "dirtrestrict.bypass.item." + item.getItem().getNamespace() + "." + item.getItem().getKey() + "\n" +
 											"\n" +
-											ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "Banned Methods" + ChatColor.DARK_GRAY + ":" + "\n" +
+											ChatColor.DARK_AQUA + "\u2219 " + ChatColor.UNDERLINE + "Banned Methods" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.GOLD + "Break Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isBreakBanned() + "\n" +
 											ChatColor.GOLD + "Place Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isPlaceBanned() + "\n" +
 											ChatColor.GOLD + "Pickup Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isPickupBanned() + "\n" +
 											ChatColor.GOLD + "Click Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isInventoryClickBanned() + "\n" +
+											ChatColor.GOLD + "Hold Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isHoldBanned() + "\n" +
+											ChatColor.GOLD + "Use Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isUseBanned() + "\n" +
 											"\n" +
-											ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "Additional Info" + ChatColor.DARK_GRAY + ":" + "\n" +
+											ChatColor.DARK_AQUA + "\u2219 " + ChatColor.UNDERLINE + "Additional Info" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.GOLD + "Reason" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + reason + "\n" +
 											ChatColor.GOLD + "Alternative" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + alternative
 							))).event(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, "dirtrestrict.bypass.item." + item.getItem().getNamespace() + "." + item.getItem().getKey())).create();
@@ -121,18 +124,20 @@ public class BannedItemsCommand implements CommandExecutor {
 					restrictedItem = new ComponentBuilder("")
 							.append(ChatColor.GOLD + item.getDisplayName() + ChatColor.DARK_AQUA + " - " + ChatColor.GRAY + reason)
 							.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-									ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "General Info" + ChatColor.DARK_GRAY + ":" + "\n" +
+									ChatColor.DARK_AQUA + "\u2219 " + ChatColor.UNDERLINE + "General Info" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.GOLD + "ID" + ChatColor.DARK_GRAY + ": " + ChatColor.RED + item.getItem().toString() + "\n" +
 											ChatColor.GOLD + "Name" + ChatColor.DARK_GRAY + ": " + ChatColor.GREEN + item.getDisplayName() + "\n" +
 											ChatColor.GOLD + "Allowed Worlds" + ChatColor.DARK_GRAY + ": " + whitelistedWorlds + "\n" +
 											"\n" +
-											ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "Banned Methods" + ChatColor.DARK_GRAY + ":" + "\n" +
+											ChatColor.DARK_AQUA + "\u2219 " + ChatColor.UNDERLINE + "Banned Methods" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.GOLD + "Break Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isBreakBanned() + "\n" +
 											ChatColor.GOLD + "Place Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isPlaceBanned() + "\n" +
 											ChatColor.GOLD + "Pickup Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isPickupBanned() + "\n" +
 											ChatColor.GOLD + "Click Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isInventoryClickBanned() + "\n" +
+											ChatColor.GOLD + "Hold Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isHoldBanned() + "\n" +
+											ChatColor.GOLD + "Use Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + item.isUseBanned() + "\n" +
 											"\n" +
-											ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "Additional Info" + ChatColor.DARK_GRAY + ":" + "\n" +
+											ChatColor.DARK_AQUA + "\u2219 " + ChatColor.UNDERLINE + "Additional Info" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.GOLD + "Reason" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + reason + "\n" +
 											ChatColor.GOLD + "Alternative" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + alternative
 							))).create();
@@ -184,19 +189,21 @@ public class BannedItemsCommand implements CommandExecutor {
 					restrictedItem = new ComponentBuilder("")
 							.append(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA + "MOD" + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + mod.getDisplayName() + ChatColor.DARK_AQUA + " - " + ChatColor.GRAY + reason)
 							.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-									ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "General Info" + ChatColor.DARK_GRAY + ":" + "\n" +
+									ChatColor.DARK_AQUA + "\u2219 " + ChatColor.UNDERLINE + "General Info" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA + "MOD" + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + "Namespace" + ChatColor.DARK_GRAY + ": " + ChatColor.RED + mod.getNamespace() + "\n" +
 											ChatColor.GOLD + "Name" + ChatColor.DARK_GRAY + ": " + ChatColor.GREEN + mod.getDisplayName() + "\n" +
 											ChatColor.GOLD + "Allowed Worlds" + ChatColor.DARK_GRAY + ": " + whitelistedWorlds + "\n" +
 											ChatColor.GOLD + "Bypass Permission" + ChatColor.DARK_GRAY + ": " + ChatColor.BLUE + "dirtrestrict.bypass.mod." + mod.getNamespace() + "\n" +
 											"\n" +
-											ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "Banned Methods" + ChatColor.DARK_GRAY + ":" + "\n" +
+											ChatColor.DARK_AQUA + "\u2219 " + ChatColor.UNDERLINE + "Banned Methods" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.GOLD + "Break Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isBreakBanned() + "\n" +
 											ChatColor.GOLD + "Place Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isPlaceBanned() + "\n" +
 											ChatColor.GOLD + "Pickup Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isPickupBanned() + "\n" +
 											ChatColor.GOLD + "Click Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isInventoryClickBanned() + "\n" +
+											ChatColor.GOLD + "Hold Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isHoldBanned() + "\n" +
+											ChatColor.GOLD + "Use Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isUseBanned() + "\n" +
 											"\n" +
-											ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "Additional Info" + ChatColor.DARK_GRAY + ":" + "\n" +
+											ChatColor.DARK_AQUA + "\u2219 " + ChatColor.UNDERLINE + "Additional Info" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.GOLD + "Reason" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + reason + "\n" +
 											ChatColor.GOLD + "Alternative" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + alternative
 							))).event(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, "dirtrestrict.bypass.mod." + mod.getNamespace())).create();
@@ -204,18 +211,20 @@ public class BannedItemsCommand implements CommandExecutor {
 					restrictedItem = new ComponentBuilder("")
 							.append(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA + "MOD" + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + mod.getDisplayName() + ChatColor.DARK_AQUA + " - " + ChatColor.GRAY + reason)
 							.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-									ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "General Info" + ChatColor.DARK_GRAY + ":" + "\n" +
+									ChatColor.DARK_AQUA + "\u2219 " + ChatColor.UNDERLINE + "General Info" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA + "MOD" + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + "Namespace" + ChatColor.DARK_GRAY + ": " + ChatColor.RED + mod.getNamespace() + "\n" +
 											ChatColor.GOLD + "Name" + ChatColor.DARK_GRAY + ": " + ChatColor.GREEN + mod.getDisplayName() + "\n" +
 											ChatColor.GOLD + "Allowed Worlds" + ChatColor.DARK_GRAY + ": " + whitelistedWorlds + "\n" +
 											"\n" +
-											ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "Banned Methods" + ChatColor.DARK_GRAY + ":" + "\n" +
+											ChatColor.DARK_AQUA + "\u2219 " + ChatColor.UNDERLINE + "Banned Methods" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.GOLD + "Break Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isBreakBanned() + "\n" +
 											ChatColor.GOLD + "Place Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isPlaceBanned() + "\n" +
 											ChatColor.GOLD + "Pickup Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isPickupBanned() + "\n" +
 											ChatColor.GOLD + "Click Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isInventoryClickBanned() + "\n" +
+											ChatColor.GOLD + "Hold Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isHoldBanned() + "\n" +
+											ChatColor.GOLD + "Use Banned" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + mod.isUseBanned() + "\n" +
 											"\n" +
-											ChatColor.DARK_AQUA + "\u2219  " + ChatColor.UNDERLINE + "Additional Info" + ChatColor.DARK_GRAY + ":" + "\n" +
+											ChatColor.DARK_AQUA + "\u2219" + ChatColor.UNDERLINE + "Additional Info" + ChatColor.DARK_GRAY + ":" + "\n" +
 											ChatColor.GOLD + "Reason" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + reason + "\n" +
 											ChatColor.GOLD + "Alternative" + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + alternative
 							))).create();
@@ -239,33 +248,32 @@ public class BannedItemsCommand implements CommandExecutor {
 			}
 		}
 
-		TextComponent bottomBar = new TextComponent(TextComponent.fromLegacyText(Utilities.format(Strings.HALF_BAR_ONE)));
+		TextComponent bottomBar = new TextComponent(TextComponent.fromLegacyText(GradientHandler.hsvGradient("-----------------------", new java.awt.Color(251, 121, 0), new java.awt.Color(247, 0, 0), GradientHandler::linear, net.md_5.bungee.api.ChatColor.STRIKETHROUGH)));
 		TextComponent pagePrev;
 		if (page == 1) {
-			pagePrev = new TextComponent(ChatColor.BLACK + " \u00AB");
+			pagePrev = new TextComponent(ChatColor.GRAY + "  \u25C0 ");
 			pagePrev.setBold(true);
 			pagePrev.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "You are already on the first page!")));
 		} else {
-			pagePrev = new TextComponent(ChatColor.GREEN + " \u00AB");
+			pagePrev = new TextComponent(ChatColor.GREEN + "  \u25C0 ");
 			pagePrev.setBold(true);
 			pagePrev.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Previous page")));
 			pagePrev.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/banneditems " + (page - 1)));
 		}
 		bottomBar.addExtra(pagePrev);
-		bottomBar.addExtra(ChatColor.DARK_AQUA + " " + page + ChatColor.GRAY + " / " + ChatColor.DARK_AQUA + maxPage + " ");
 		TextComponent pageNext;
 		if (page == maxPage) {
-			pageNext = new TextComponent(ChatColor.BLACK + "\u00BB ");
+			pageNext = new TextComponent(ChatColor.GRAY + " \u25B6  ");
 			pageNext.setBold(true);
 			pageNext.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "You are already on the last page!")));
 		} else {
-			pageNext = new TextComponent(ChatColor.GREEN + "\u00BB ");
+			pageNext = new TextComponent(ChatColor.GREEN + " \u25B6  ");
 			pageNext.setBold(true);
 			pageNext.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Next page")));
 			pageNext.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/banneditems " + (page + 1)));
 		}
 		bottomBar.addExtra(pageNext);
-		bottomBar.addExtra(new TextComponent(TextComponent.fromLegacyText(Utilities.format(Strings.HALF_BAR_TWO))));
+		bottomBar.addExtra(new TextComponent(TextComponent.fromLegacyText(GradientHandler.hsvGradient("-----------------------", new java.awt.Color(247, 0, 0), new java.awt.Color(251, 121, 0), GradientHandler::linear, net.md_5.bungee.api.ChatColor.STRIKETHROUGH))));
 		sender.sendMessage("");
 		sender.spigot().sendMessage(bottomBar);
 	}
